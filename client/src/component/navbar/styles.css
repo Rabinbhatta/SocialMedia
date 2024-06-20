@@ -41,3 +41,30 @@
   margin: 0px 5px 0px 5px;
   color: #B0A88C;
 }
+
+.navMid{
+    display: flex;
+    justify-content: space-between;
+    color: #535556;
+    width: 35%;
+    margin: 0px 50px 0px 200px;
+    font-size: 1.8rem;
+    
+}
+
+.navEnd{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    color: #E7E9ED;;
+    width: 28%;
+    font-size: 1.6rem;
+    gap: 30px;
+}
+
+.profile{
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    border-radius: 50px;
+}
