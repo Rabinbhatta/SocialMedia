@@ -33,7 +33,6 @@ export const Navbar = () => {
         <FaFacebookMessenger/>
         <IoNotifications/>
         <div className='profile'>
-          
         </div>
       </div>
       </div>

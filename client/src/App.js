@@ -1,6 +1,6 @@
-import {BrowserRouter, Routes, Route,Navigate} from "react-router-dom"
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Login from "./component/login";
-import { Navbar } from "./component/navbar";
+import Home from "./component/home";
 
 
 
@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login/>}/>
-      <Route path="/"  element={<Navbar/>}/>
+      <Route path="/"  element={<Home/>}/>
     </Routes>
     </BrowserRouter>
   );

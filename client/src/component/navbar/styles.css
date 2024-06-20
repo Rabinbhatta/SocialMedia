@@ -1,4 +1,5 @@
 .navContainer{
+    display: fixed;
     background-color: #242526;
     height: 40px;
     padding: 5px;
