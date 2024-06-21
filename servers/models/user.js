@@ -36,7 +36,7 @@ const UserSchema = mongoose.Schema({
         type: String,
         min : 8,
         max: 40,
-        require: true
+        required: true
         
     },
     friends:[{type:mongoose.Schema.Types.ObjectId,ref:"Friend"}],

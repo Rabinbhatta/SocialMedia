@@ -30,7 +30,8 @@
     border: none;
     border-radius: 20px;
     background-color: #4E4F50;
-    color: #4E4F50;
+    color:white;
+    outline: none;
 }
 
 .photoVideo{
