@@ -3,25 +3,22 @@ import bcrypt from "bcrypt";
 
 export const register = async(req,res)=>{
     try {
-        const {firstname, lastname , email , password , address} =  req.body;
+        const {firstName, lastName , email , password , address} =  req.body;
         const user = await User.findOne({email});
         if(user){
             res.status(404).json({error :"Email already used!!"})
         }else{
         const passwordhash = await bcrypt.hash(password,10);
         const newUser = new User({
-            firstname,
-            lastname,
+            firstName,
+            lastName,
             email,
             address,
             password:passwordhash
         })
-
         const savedUser = await newUser.save();
         res.status(201).json(savedUser)
-}
-        
-         
+         }
     } catch (error) {
         res.status(404).json({error :error.message})
     }
@@ -39,7 +36,7 @@ export const login = async(req,res)=>{
             if(!isMatch){
                 res.status(404).json({error :"Wrong password!!"})
             }else{
-                res.status(200).json({msg:user, token:await user.generateToken()})
+                res.status(200).json({user, token:await user.generateToken()})
             }
         }
      } catch (error) {

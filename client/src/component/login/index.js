@@ -5,8 +5,8 @@ import './styles.css';
 import { useNavigate } from 'react-router-dom';
 
 const registerSchema = yup.object().shape({
-  firstname: yup.string().required('*Required'),
-  lastname: yup.string().required('*Required'),
+  firstName: yup.string().required('*Required'),
+  lastName: yup.string().required('*Required'),
   email: yup.string().email('*Invalid email').required('*Required'),
   password: yup.string().required('*Required').min(8, '*Password is too short').max(20, '*Password is too long'),
   address: yup.string().required('*Required'),
@@ -18,11 +18,11 @@ const loginSchema = yup.object().shape({
 });
 
 const initialRegisterValues = {
-  email: '',
-  password: '',
   firstName: '',
-  lastName: '',
-  address: '',
+  lastName: ' ',
+  email: ' ',
+  password: ' ',
+  address: ' ',
 };
 
 const initialLoginValues = {
@@ -124,16 +124,16 @@ const Login = () => {
                 <input
                   type="text"
                   name="firstName"
-                  value={values.firstname}
+                  value={values?.firstName || ""}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   placeholder="First Name"
                 />
-                <p className="error">{touched.firstName && errors.firstName}</p>
+                <p className="error">{touched.firstname && errors.firstName}</p>
                 <input
                   type="text"
                   name="lastName"
-                  value={values.lastname}
+                  value={values.lastName || ""}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   placeholder="Last Name"
@@ -142,7 +142,7 @@ const Login = () => {
                 <input
                   type="text"
                   name="address"
-                  value={values.address}
+                  value={values.address || ""}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   placeholder="Address"
@@ -150,7 +150,9 @@ const Login = () => {
                 <p className="error">{touched.address && errors.address}</p>
               </>
             )}
-            {!isLogin ?<button className="login" type="submit">register</button>:<button className="login" type="submit">Log In</button>}
+            <button className="login" type="submit">
+              {isLogin ? 'Log In' : 'Register'}
+            </button>
             <p className="forget">Forgot password?</p>
             {!isLogin ? (
               <button

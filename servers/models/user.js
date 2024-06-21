@@ -4,14 +4,14 @@ import  Friend  from "./friend.js";
 import PostMessage from "./posts.js";
 
 const UserSchema = mongoose.Schema({
-    firstname: {
+    firstName: {
         type: String,
         min : 8,
         max: 40,
         required: true
         
     },
-    lastname: {
+    lastName: {
         type: String,
         min : 8,
         max: 40,
