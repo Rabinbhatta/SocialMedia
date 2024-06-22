@@ -74,6 +74,7 @@ const Login = () => {
 
       const registered = await registerResponse.json();
       console.log(registered);
+      
       onSubmitProps.resetForm();
     } catch (error) {
       console.error('Registration failed:', error);
