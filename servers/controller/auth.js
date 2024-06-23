@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
+import {v2 as cloudinary} from "cloudinary"
 
 export const register = async(req,res)=>{
     try {
@@ -42,4 +43,23 @@ export const login = async(req,res)=>{
      } catch (error) {
         res.status(404).json({error :error.message})
      }
+}
+
+export const uploadProfilePic = async(req,res)=>{
+       try {
+        const profile = req.files.profilepicture;
+        const result = await cloudinary.uploader.upload(profile.tempFilePath);
+        const profilepicture =  result.secure_url;
+        const userID = req.params.userId;
+        const user = await User.findByIdAndUpdate(userID,{profilepicture:profilepicture},{new:true})
+        if(!user){
+         res.status(404).json({error :error.message})
+        }else{
+            res.status(200).json({user})
+        }
+       
+       } catch (error) {
+        res.status(404).json({error :error.message})
+       }
+
 }

@@ -1,7 +1,6 @@
 import mongoose, { SchemaType } from "mongoose"
 import jwt from "jsonwebtoken";
-import  Friend  from "./friend.js";
-import PostMessage from "./posts.js";
+
 
 const UserSchema = mongoose.Schema({
     firstName: {
@@ -39,8 +38,18 @@ const UserSchema = mongoose.Schema({
         required: true
         
     },
-    friends:[{type:mongoose.Schema.Types.ObjectId,ref:"Friend"}],
-    post:[{type:mongoose.Schema.Types.ObjectId,ref:"PostMessage"}]
+    profilepicture:{
+          type:String,
+          default:""
+    },
+    following:{
+        type:Array,
+        default:[]
+    },
+    followers:{
+        type:Array,
+        default:[]
+    }
 })
 
 UserSchema.methods.generateToken = async()=>{

@@ -20,6 +20,7 @@ export const createPost = async (req,res)=>{
            }
           const file =  req.files.photo
           const result = await cloudinary.uploader.upload(file.tempFilePath)
+          
           res.status(202).json(result);
 
         

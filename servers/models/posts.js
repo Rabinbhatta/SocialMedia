@@ -2,10 +2,15 @@ import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
 imageURL: String,
-description: String,
-creator: String,
-tags: [String],
-selected : String,
+description: {
+    type:String,
+    required:true
+},
+creator: {
+    type:String,
+    required:true
+},
+comment : [[{type:mongoose.Schema.Types.ObjectId,ref:"Comment"}]],
 likeCount: {
     type:Number,
     default: 0
@@ -16,6 +21,6 @@ createdAt: {
 }
 })
 
-const PostMessage = mongoose.model('PostMessage',postSchema)
+const Post = mongoose.model('Post',postSchema)
 
-export default PostMessage;
+export default Post;
