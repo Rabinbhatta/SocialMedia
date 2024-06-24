@@ -10,7 +10,11 @@ creator: {
     type:String,
     required:true
 },
-comment : [[{type:mongoose.Schema.Types.ObjectId,ref:"Comment"}]],
+comment : [{
+    userID:String,
+    content:String,
+    date:{type:Date,default:Date.now}
+}],
 likeCount: {
     type:Number,
     default: 0
@@ -18,7 +22,8 @@ likeCount: {
 createdAt: {
     type: Date,
     default: new Date()
-}
+},  
+date:{type:Date,default:Date.now}
 })
 
 const Post = mongoose.model('Post',postSchema)
