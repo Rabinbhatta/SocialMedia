@@ -63,3 +63,43 @@ export const uploadProfilePic = async(req,res)=>{
        }
 
 }
+
+export const follow = async(req,res)=>{
+    try {
+        const userID = req.params.userID;
+        const {followId} = req.body;
+        if(userID==followId){
+            res.status(404).json({error : "cannot follow own id"})
+        }
+        const updateUser = await User.findByIdAndUpdate(userID,{$push:{following:followId}},{new:true})
+        const updateFollowUser = await User.findByIdAndUpdate(followId,{$push:{followers:userID}},{new:true})
+        if(!updateUser&&!updateFollowUser){
+            res.status(404).json({error :error.message})
+           }
+               res.status(200).json({updateUser,updateFollowUser})
+           
+
+    } catch (error) {
+        res.status(404).json({error :error.message})
+    }
+}
+
+export const unfollow = async(req,res)=>{
+    try {
+        const userID = req.params.userID;
+        const {followId} = req.body;
+        if(userID==followId){
+            res.status(404).json({error : "cannot follow own id"})
+        }
+        const updateUser = await User.findByIdAndUpdate(userID,{$pull:{following:followId}},{new:true})
+        const updateFollowUser = await User.findByIdAndUpdate(followId,{$pull:{followers:userID}},{new:true})
+        if(!updateUser && !updateFollowUser){
+            res.status(404).json({error :error.message})
+           }
+               res.status(200).json({updateUser,updateFollowUser})
+           
+
+    } catch (error) {
+        res.status(404).json({error :error.message})
+    }
+}
