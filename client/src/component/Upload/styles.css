@@ -39,3 +39,7 @@
     font-size: 1.8rem;
     color: #58C472;
 }
+
+#media{
+    display: none;
+}

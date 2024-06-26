@@ -12,8 +12,10 @@ const Upload = () => {
         <input placeholder='Whats on your mind Rabin?'/>
           </div>
           <div>
-            <input type='file'/>
-            <FaPhotoVideo className='photoVideo' type='file'/>
+            <input type='file' id='media'/>
+            <label htmlFor='media'><FaPhotoVideo  className='photoVideo' type='file'/></label>
+            <button>Submit</button>
+            
         <div>Photos</div></div>
         
         </div>
