@@ -9,6 +9,7 @@ import postsroute from "./routers/posts.js"
 import authroute from "./routers/auth.js"
 import fileUpload from "express-fileupload"
 import {v2 as cloudinary} from "cloudinary"
+import cookieParser from 'cookie-parser';
 
 
 dotenv.config();
@@ -19,10 +20,14 @@ app.use(helmet.crossOriginResourcePolicy({policy : "cross-origin"}));
 app.use(morgan("common"));
 app.use(bodyParser.json({limit:"30mb", extended:true}));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}));
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Your React app domain
+    credentials: true // Allow credentials (cookies) to be sent
+}));
 app.use(fileUpload({
     useTempFiles:true
 }))
+app.use(cookieParser())
 
 app.use("/posts",postsroute)
 app.use("/auth",authroute)

@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import {v2 as cloudinary} from "cloudinary"
+import jwt from "jsonwebtoken"
 
 export const register = async(req,res)=>{
     try {
@@ -18,7 +19,8 @@ export const register = async(req,res)=>{
             password:passwordhash
         })
         const savedUser = await newUser.save();
-        res.status(201).json(savedUser)
+
+        res.status(201).json({msg:"Sucess"})
          }
     } catch (error) {
         res.status(404).json({error :error.message})
@@ -36,9 +38,16 @@ export const login = async(req,res)=>{
             const isMatch = await bcrypt.compare(password,user.password)
             if(!isMatch){
                 res.status(404).json({error :"Wrong password!!"})
-            }else{
-                res.status(200).json({user, token:await user.generateToken()})
             }
+                const token =  jwt.sign(user.firstName,process.env.JWT_KEY)
+                res.cookie('token', token, {
+                    httpOnly: true,
+                  // Use secure cookies in production
+                    sameSite: 'None', // Adjust SameSite based on environment
+                    maxAge: 3600000 // 1 hour in milliseconds
+                });
+                res.status(200).json({ message: 'Login successful' });
+            
         }
      } catch (error) {
         res.status(404).json({error :error.message})

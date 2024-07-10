@@ -7,16 +7,15 @@ const Upload = () => {
     <div className='uploadContainer'>
         <div className='upload'>
           <div className="description">
-          <div className='profile'>
-        </div>
-        <input placeholder='Whats on your mind Rabin?'/>
+          <div className='profile'></div>
+               <input placeholder='Whats on your mind Rabin?'/>
           </div>
           <div>
             <input type='file' id='media'/>
             <label htmlFor='media'><FaPhotoVideo  className='photoVideo' type='file'/></label>
-            <button>Submit</button>
-            
-        <div>Photos</div></div>
+        <div>Photos</div>
+        </div>
+        <button>Submit Post</button>
         
         </div>
         

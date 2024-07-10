@@ -3,6 +3,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
+import {useDispatch} from "react-redux"
+import { setLogin } from '../../state';
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required('*Required'),
@@ -34,6 +36,7 @@ const Login = () => {
   const [pageType, setPageType] = useState('login');
   const isLogin = pageType === 'login';
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     console.log(1)
@@ -56,6 +59,10 @@ const Login = () => {
       console.log(loginedIn);
 
       if (loginedIn.token) {
+        dispatch(setLogin({
+          user:loginedIn.user,
+          token:loginedIn.token
+        }))
         navigate('/');
       }
       onSubmitProps.resetForm();
@@ -69,12 +76,18 @@ const Login = () => {
       const registerResponse = await fetch('http://localhost:3001/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(values),
       });
 
       const registered = await registerResponse.json();
-      console.log(registered);
-      
+
+      console.log(registered)
+
+      if(registered.msg === "Sucess"){
+               setPageType("login");
+      }
+
       onSubmitProps.resetForm();
     } catch (error) {
       console.error('Registration failed:', error);
