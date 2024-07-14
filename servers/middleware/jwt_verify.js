@@ -1,13 +1,11 @@
-export  const  jwt_verify = async(res,req)=>{
+import jwt from "jsonwebtoken"
+export  const  jwt_verify = (req, res, next)=>{
     try {
-       
         const token = req.cookies.token
-        jwt_verify.verify(token,process.env.JWT_KEY,(err,user)=>{
-            if(err) return res.status(404)
-            req.user = user;
-            next()
-        })
+        const user = jwt.verify(token,process.env.JWT_KEY);
+       if(user){
+        next()}
     } catch (error) {
-        
+        res.clearCookie("token")
     }
 }

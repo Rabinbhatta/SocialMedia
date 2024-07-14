@@ -34,21 +34,18 @@ export const login = async(req,res)=>{
         if(!user){
             res.status(404).json({error :"User not found!!"})
 
-        }else{
-            const isMatch = await bcrypt.compare(password,user.password)
-            if(!isMatch){
-                res.status(404).json({error :"Wrong password!!"})
-            }
-                const token =  jwt.sign(user.firstName,process.env.JWT_KEY)
-                res.cookie('token', token, {
-                    httpOnly: true,
-                  // Use secure cookies in production
-                    sameSite: 'None', // Adjust SameSite based on environment
-                    maxAge: 3600000 // 1 hour in milliseconds
-                });
-                res.status(200).json({ message: 'Login successful' });
-            
         }
+        const isMatch = await bcrypt.compare(password,user.password)
+        if(!isMatch){
+            res.status(404).json({error :"Wrong password!!"})
+        }else{
+        const token =  jwt.sign(user.firstName,process.env.JWT_KEY)
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true, // Use secure cookies in production
+            sameSite:  'Lax'
+        });
+        res.status(200).json({user});}    
      } catch (error) {
         res.status(404).json({error :error.message})
      }

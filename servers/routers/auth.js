@@ -9,7 +9,7 @@ router.post("/login",login)
 
 router.post("/register",register)
 
-router.put("/profilepic/:userId",jwt_verify,uploadProfilePic)
+router.put("/profilepic/:userId",uploadProfilePic)
 
 router.put("/follow/:userID",follow)
 

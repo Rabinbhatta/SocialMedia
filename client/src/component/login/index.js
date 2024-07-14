@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {useDispatch} from "react-redux"
 import { setLogin } from '../../state';
 
+
 const registerSchema = yup.object().shape({
   firstName: yup.string().required('*Required'),
   lastName: yup.string().required('*Required'),
@@ -47,36 +48,47 @@ const Login = () => {
     }
   };
 
+  
+  
   const login = async (values, onSubmitProps) => {
     try {
       const loginResponse = await fetch('http://localhost:3001/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(values),
       });
-
+  
+      
+  
       const loginedIn = await loginResponse.json();
       console.log(loginedIn);
 
-      if (loginedIn.token) {
-        dispatch(setLogin({
-          user:loginedIn.user,
-          token:loginedIn.token
-        }))
-        navigate('/');
+      if (loginResponse.ok) {
+          dispatch(setLogin({
+          user: loginedIn.user,
+    
+         }));
+        navigate("/home")
+       
       }
       onSubmitProps.resetForm();
+  
+      // Ensure the token is set in cookies
+      
+      
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
+  
 
   const register = async (values, onSubmitProps) => {
     try {
       const registerResponse = await fetch('http://localhost:3001/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        
         body: JSON.stringify(values),
       });
 

@@ -10,8 +10,10 @@ import { MdOutlineOndemandVideo } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { CgMenuGridR } from "react-icons/cg";
+import {useSelector} from "react-redux"
 
 export const Navbar = () => {
+  const user = useSelector((state)=>state.user)
   return (
     <div className='navContainer'>
       <div className='navbar'> 
@@ -33,6 +35,7 @@ export const Navbar = () => {
         <FaFacebookMessenger/>
         <IoNotifications/>
         <div className='profile'>
+          <img src={user?.profilepicture}/>
         </div>
       </div>
       </div>

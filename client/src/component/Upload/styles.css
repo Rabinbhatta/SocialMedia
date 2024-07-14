@@ -41,5 +41,11 @@
 }
 
 #media{
-    display: none;
+    display: none
 }
+.previewImage {
+    max-width: 100px;
+    height: 100px;
+    margin-top: 10px;
+  }
+  
