@@ -109,3 +109,12 @@ export const unfollow = async(req,res)=>{
         res.status(404).json({error :error.message})
     }
 }
+
+export const getAllUser = async(req,res)=>{
+    try {
+        const allUser = await User.find()
+        res.status(202).json({allUser})
+    } catch (error) {
+        res.status(404).json({error :error.message})
+    }
+}

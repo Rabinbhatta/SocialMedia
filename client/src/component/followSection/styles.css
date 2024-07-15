@@ -1,0 +1,16 @@
+.followSecContainer{
+    position: absolute;
+    top: 100px;
+    right: 30px;
+     background-color: #242526;
+     height: fit-content;
+     width: 350px;
+     padding: 5px 10px 10px 10px;
+     border-radius: 15px;
+     color: #E7E9ED;
+     
+}
+
+.follows{
+    margin-bottom: 20px;
+}
