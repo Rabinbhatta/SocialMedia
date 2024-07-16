@@ -23,7 +23,7 @@
 
 .followDescription{
     font-size: 25px;
-    text-align: center;
+    
     width: 270;
     padding: 10px;
 }
@@ -42,4 +42,16 @@ margin-top: 5px;
 .followBtn:hover{
    cursor: pointer;
    background-color: rgb(31, 30, 30);
+}
+
+.following{
+    font-size: 13px;
+}
+
+.followingContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    
 }

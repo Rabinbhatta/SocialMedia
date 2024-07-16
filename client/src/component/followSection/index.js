@@ -13,9 +13,9 @@ export const FollowSection = () => {
         credentials: 'include',
       });
       const result = await response.json();
-      console.log(result.allUser);
+      console.log(result.notFollowed);
       if (result) {
-        setAllUser(result.allUser); // Assuming `result` is an array of users
+        setAllUser(result.notFollowed); // Assuming `result` is an array of users
       }
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -30,11 +30,13 @@ export const FollowSection = () => {
     <div className="followSecContainer">
       <h1>People you may know</h1>
       <div>
-        {allUser.map((user) => (
-          <div key={user.id}>
-            <Follow name={`${user.firstName} ${user.lastName}`} profile={user.profilepicture} />
+        {allUser.length != 0 ? allUser?.map((user) => (
+          <div key={user._id}>
+            <Follow users={user}/>
           </div>
-        ))}
+        )):<div>
+          User not found
+        </div>}
       </div>
     </div>
   );

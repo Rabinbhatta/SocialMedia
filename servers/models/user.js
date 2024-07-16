@@ -40,7 +40,7 @@ const UserSchema = mongoose.Schema({
     },
     profilepicture:{
           type:String,
-          default:""
+          default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmRLRMXynnc7D6-xfdpeaoEUeon2FaU0XtPg&s"
     },
     following:{
         type:Array,

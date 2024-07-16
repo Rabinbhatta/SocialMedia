@@ -39,7 +39,7 @@ export const login = async(req,res)=>{
         if(!isMatch){
             res.status(404).json({error :"Wrong password!!"})
         }else{
-        const token =  jwt.sign(user.firstName,process.env.JWT_KEY)
+        const token =  jwt.sign(user.id,process.env.JWT_KEY)
         res.cookie('token', token, {
             httpOnly: true,
             secure: true, // Use secure cookies in production
@@ -73,12 +73,16 @@ export const uploadProfilePic = async(req,res)=>{
 export const follow = async(req,res)=>{
     try {
         const userID = req.params.userID;
-        const {followId} = req.body;
-        if(userID==followId){
+        const {id} = req.body;
+        console.log(id)
+        const user = await User.findById(userID)
+       
+        
+        if(userID==id){
             res.status(404).json({error : "cannot follow own id"})
         }
-        const updateUser = await User.findByIdAndUpdate(userID,{$push:{following:followId}},{new:true})
-        const updateFollowUser = await User.findByIdAndUpdate(followId,{$push:{followers:userID}},{new:true})
+        const updateUser = await User.findByIdAndUpdate(userID,{$push:{following:id}},{new:true})
+        const updateFollowUser = await User.findByIdAndUpdate(id,{$push:{followers:userID}},{new:true})
         if(!updateUser&&!updateFollowUser){
             res.status(404).json({error :error.message})
            }
@@ -109,12 +113,24 @@ export const unfollow = async(req,res)=>{
         res.status(404).json({error :error.message})
     }
 }
-
-export const getAllUser = async(req,res)=>{
+export const getAllUser = async (req, res) => {
     try {
-        const allUser = await User.find()
-        res.status(202).json({allUser})
+        const allUsers = await User.find(); 
+        const user = await User.findById(res.user); 
+        const notFollowed = []; 
+
+        const followedIds = new Set(user.following.map(followingUser => followingUser.id));
+
+        for (const otherUser of allUsers) {
+            if (otherUser.id !== user.id && !followedIds.has(otherUser.id)) {
+                notFollowed.push(otherUser); 
+            }
+        }
+
+        res.status(202).json({ notFollowed }); 
     } catch (error) {
-        res.status(404).json({error :error.message})
+        res.status(404).json({ error: error.message });
     }
-}
+};
+
+

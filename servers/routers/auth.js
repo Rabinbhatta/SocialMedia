@@ -11,10 +11,10 @@ router.post("/register",register)
 
 router.put("/profilepic/:userId",uploadProfilePic)
 
-router.put("/follow/:userID",follow)
+router.put("/follow/:userID",jwt_verify,follow)
 
 router.put("/unfollow/:userID",unfollow)
 
-router.get("/allUser",getAllUser)
+router.get("/allUser",jwt_verify,getAllUser)
 
 export default router
