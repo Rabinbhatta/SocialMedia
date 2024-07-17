@@ -1,0 +1,13 @@
+.followingContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+   border-radius: 5px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.followingContainer:hover{
+     cursor: pointer;
+     background-color: #5050504d;
+}

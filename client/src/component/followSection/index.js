@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Follow } from '../follow';
+import { Follow } from './follow';
 import './styles.css';
 
 export const FollowSection = () => {
   const [allUser, setAllUser] = useState([]);
-
+  const [updateFollow,setUpdateFollow] = useState(false)
+ console.log(updateFollow)
   const getAllUser = async () => {
     try {
       const response = await fetch('http://localhost:3001/auth/allUser', {
@@ -24,15 +25,16 @@ export const FollowSection = () => {
 
   useEffect(() => {
     getAllUser();
-  }, []);
+    setUpdateFollow(false)
+  }, [updateFollow]);
 
   return (
-    <div className="followSecContainer">
+    <div className="followSecContainer" id='left'>
       <h1>People you may know</h1>
       <div>
-        {allUser.length != 0 ? allUser?.map((user) => (
-          <div key={user._id}>
-            <Follow users={user}/>
+        {allUser.length != 0 ? allUser?.map((users) => (
+          <div key={users._id}>
+            <Follow users={users} setUpdateFollow={setUpdateFollow} />
           </div>
         )):<div>
           User not found

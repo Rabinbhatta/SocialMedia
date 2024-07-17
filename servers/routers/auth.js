@@ -1,5 +1,5 @@
 import  express  from "express";
-import { follow, getAllUser, login,register,unfollow,uploadProfilePic } from "../controller/auth.js";
+import { follow, followedUser, getAllUser, login,register,unfollow,uploadProfilePic } from "../controller/auth.js";
 import { jwt_verify } from "../middleware/jwt_verify.js";
 
 const router = express.Router();
@@ -16,5 +16,7 @@ router.put("/follow/:userID",jwt_verify,follow)
 router.put("/unfollow/:userID",unfollow)
 
 router.get("/allUser",jwt_verify,getAllUser)
+
+router.get("/following",jwt_verify,followedUser)
 
 export default router

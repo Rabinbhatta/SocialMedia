@@ -74,23 +74,23 @@ export const follow = async(req,res)=>{
     try {
         const userID = req.params.userID;
         const {id} = req.body;
-        console.log(id)
         const user = await User.findById(userID)
-       
-        
+       for(const i of user.following){
+        if(id == i){
+            return res.status(404).json({error:"Cannot follow same person twice."})
+        }
+       }
         if(userID==id){
-            res.status(404).json({error : "cannot follow own id"})
+            return res.status(404).json({error : "cannot follow own id"})
         }
         const updateUser = await User.findByIdAndUpdate(userID,{$push:{following:id}},{new:true})
         const updateFollowUser = await User.findByIdAndUpdate(id,{$push:{followers:userID}},{new:true})
         if(!updateUser&&!updateFollowUser){
-            res.status(404).json({error :error.message})
+            return res.status(404).json({error :error.message})
            }
-               res.status(200).json({updateUser,updateFollowUser})
-           
-
+              return res.status(200).json({updateUser,updateFollowUser})
     } catch (error) {
-        res.status(404).json({error :error.message})
+        res.status(404).json({error : "error"})
     }
 }
 
@@ -118,8 +118,7 @@ export const getAllUser = async (req, res) => {
         const allUsers = await User.find(); 
         const user = await User.findById(res.user); 
         const notFollowed = []; 
-
-        const followedIds = new Set(user.following.map(followingUser => followingUser.id));
+        const followedIds = new Set(user.following.map(followingUser => followingUser));
 
         for (const otherUser of allUsers) {
             if (otherUser.id !== user.id && !followedIds.has(otherUser.id)) {
@@ -132,5 +131,19 @@ export const getAllUser = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 };
+
+export const followedUser = async(req,res)=>{
+    try{
+       const user = await User.findById(res.user)
+       const followings = []
+       for(const i of user.following){
+        const following = await User.findById(i)
+        followings.push(following)
+       }
+       res.status(202).json({followings})
+    }catch(error){
+        res.status(404).json({ error: error.message });
+    }
+}
 
 
