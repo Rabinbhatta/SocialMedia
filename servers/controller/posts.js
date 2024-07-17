@@ -1,10 +1,16 @@
 import Post from "../models/posts.js"
+import User from "../models/user.js"
 import {v2 as cloudinary} from "cloudinary"
 
 export const getPost = async (req,res)=>{
      try {
-          const PostMessages = await PostMessage.find()
-          res.status(202).json(PostMessages);
+          const Posts = await Post.find()
+          const allPost = []
+          for(const post of Posts){
+             const user = await User.findById(post.creator)
+             allPost.push({post,user})
+          }
+          res.status(202).json(allPost);
      } catch (error) {
           res.status(404).json({message: error.message})
      }

@@ -7,7 +7,7 @@ const Upload = () => {
   const user = useSelector((state) => state.user);
   const [fileSelected, setFileSelected] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
-  const [post,setPost] = useState({creator:user?.id,description:""})
+  const [post,setPost] = useState("")
 
   const handleOnChange = (event) => {
     const file = event.target.files[0];
@@ -28,8 +28,8 @@ const Upload = () => {
     console.log("Clicked")
     const formdata = new FormData()
     formdata.append("photo",fileSelected)
-    formdata.append("description",post.description)
-    formdata.append("creator",post.creator)
+    formdata.append("description",post)
+    formdata.append("creator",user._id)
     try{
       const PostResponse = await fetch('http://localhost:3001/posts/upload', {
         method: 'POST',
@@ -41,7 +41,7 @@ const Upload = () => {
          console.log(Post)
         setFilePreview(null)
         setFileSelected(null)
-        setPost({description:""})
+        setPost("")
     }catch(error){
       console.log(error)
     }
@@ -54,7 +54,7 @@ const Upload = () => {
           <div className="profile">
             <img src={user?.profilepicture} alt="Profile" />
           </div>
-          <input placeholder="What's on your mind?" value={post.description} onChange={(e)=>setPost({...post,description:e.target.value})} />
+          <input placeholder="What's on your mind?" value={post} onChange={(e)=>setPost(e.target.value)} />
         </div>
         <div>
           <input type="file" id="media" onChange={handleOnChange} />

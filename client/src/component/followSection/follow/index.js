@@ -23,9 +23,9 @@ export const Follow = ({users,setUpdateFollow}) => {
               <img src={users.profilepicture} alt="profile" />
         </div>
         <div className="followDescription">
-            <div>{users.firstName+users.lastName}</div>
+            <div>{users.firstName} {users.lastName}</div>
             <div className="notFollowingContainer">
-            <div className="following">Following:{users.following.length},Followers:{users.followers.length}</div>
+            <div className="following">Following:{users.following.length}  Followers:{users.followers.length}</div>
             <button className="followBtn" onClick={handleClick}>Follow</button>
             </div>
 

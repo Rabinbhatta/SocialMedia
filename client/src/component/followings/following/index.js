@@ -7,7 +7,7 @@ const Following = ({user}) => {
         <div className='profile'>
            <img src={user.profilepicture}/>
         </div>
-        <div>{user.firstName+user.lastName}</div>
+        <div>{user.firstName}  {user.lastName}</div>
     </div>
   )
 }

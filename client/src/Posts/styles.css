@@ -1,0 +1,5 @@
+.postsContainer{
+    display:flex;
+    justify-content: center;
+    color: #E7E9ED;
+}

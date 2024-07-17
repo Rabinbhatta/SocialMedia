@@ -5,6 +5,7 @@ import "./styles.css"
 import Upload from '../Upload'
 import {FollowSection} from '../followSection'
 import Followings from '../followings'
+import Posts from '../../Posts'
 const Home = () => {
   return (
     <div>
@@ -12,6 +13,7 @@ const Home = () => {
         <Upload/>
         <FollowSection/>
         <Followings/>
+        <Posts/>
     </div>
   )
 }
