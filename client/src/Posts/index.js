@@ -21,7 +21,7 @@ useEffect(()=>{
   return (
     <div className='postsContainer'>
       <div>
-      {allPost.length !== 0? (allPost.map((post)=><div><Post user={post.user} post={post.post}/></div>)):<div>No Post</div>}
+      {allPost.length !== 0? (allPost.map((post)=><div><Post creator={post.user} post={post.post}/></div>)):<div>No Post</div>}
       </div>
       
       

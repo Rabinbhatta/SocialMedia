@@ -18,8 +18,8 @@ comment : [{
     date:{type:Date,default:Date.now}
 }],
 likeCount: {
-    type:Number,
-    default: 0
+    type:Array,
+    default: []
 },
 createdAt: {
     type: Date,

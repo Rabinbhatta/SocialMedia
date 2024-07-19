@@ -64,7 +64,7 @@ export const deletePost = async(req,res)=>{
 export const likePost = async(req,res)=>{
          try {
           const PostId = req.params.postId;
-          const updateLike = await Post.findByIdAndUpdate(PostId,{$inc:{likeCount:1}},{new:true})
+          const updateLike = await Post.findByIdAndUpdate(PostId,{$push:{likeCount:res.user}},{new:true})
           if(!updateLike){
                res.status(404).json({message: "user not found"})
           }
@@ -79,7 +79,7 @@ export const likePost = async(req,res)=>{
 export const dislikePost = async(req,res)=>{
      try {
       const PostId = req.params.postId;
-      const updatedisLike = await Post.findByIdAndUpdate(PostId,{$inc:{likeCount:-1}},{new:true})
+      const updatedisLike = await Post.findByIdAndUpdate(PostId,{$pull:{likeCount:res.user}},{new:true})
       if(!updatedisLike){
           res.status(404).json({message: "user not found"})
      }

@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get("/",getPost)
 router.post("/upload",jwt_verify,createPost)
-router.put("/like/:postId",likePost)
-router.put("/dislike/:postId",dislikePost)
+router.put("/like/:postId",jwt_verify,likePost)
+router.put("/dislike/:postId",jwt_verify,dislikePost)
 router.put("/comment/:postId",comment)
 router.delete("/delete/:postId",deletePost)
 

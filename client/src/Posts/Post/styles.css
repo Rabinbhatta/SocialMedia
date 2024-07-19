@@ -28,15 +28,14 @@
 .interaction{
     display: flex;
     justify-content: space-around;
-    font-size: 25px;
-    margin-top:15px;
+    font-size: 15px;
+   
 }
 .details{
     display: flex;
     justify-content: space-between;
     padding: 0px 10px 0px 10px;
     align-items: center;
-    margin-top: 10px;
 }
 
 hr{
@@ -44,3 +43,55 @@ hr{
     color: #3A3B3C;
     border: solid 1px ;
 }
+
+.interaction button{
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    color: white;
+    width: 250px;
+    height: 40px;
+    margin: 0px 10px 0px 10px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+
+.interaction button:hover{
+    cursor: pointer;
+    background-color:#333435 ;
+}
+
+.userComment{
+    display: flex;
+    margin: 20px 5px 0px 5px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.userComment input{
+    width: 570px ;
+    background-color: #3A3B3C;
+    border: none;
+    border-radius: 15px;
+    height: 35px;
+    padding: 10px;
+    outline: none;
+    color: white;
+}
+
+.commentSection{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 50px;
+}
+
+.commentUser{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    background-color: #3A3B3C;
+    border-radius: 15px;
+}
+
