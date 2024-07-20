@@ -12,6 +12,7 @@ const Post = ({creator,post}) => {
  const [onComment,setOnComment] = useState(false)
   const user = useSelector((state)=>state.user)
   const [likeNumber,setLikeNumber]= useState(0)
+  
 
    const handleLike = async()=>{
     if(!isLiked){
@@ -50,7 +51,7 @@ const Post = ({creator,post}) => {
       }
     }
    }
-
+  
    useEffect(()=>{
       checkLikePost()
    },[])
@@ -95,7 +96,7 @@ const Post = ({creator,post}) => {
                 <div className='profile'>
                     <img src={user?.profilepicture} alt='' />
                  </div>
-                 <input placeholder='Write a comment...' />
+                 <input placeholder='Write a comment...'  />
                  <IoSend style={{color:"#666768v"}} />
                 </div>
         </div>
