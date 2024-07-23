@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import "./styles.css"
 import { BiLogoFacebookCircle  } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
@@ -11,9 +11,15 @@ import { IoNotifications } from "react-icons/io5";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { CgMenuGridR } from "react-icons/cg";
 import {useSelector} from "react-redux"
+import Logout from '../logout';
 
 export const Navbar = () => {
   const user = useSelector((state)=>state.user)
+  const[logout,setlogout] = useState(false)
+
+  const handleOnClick = ()=>{
+    setlogout(!logout)
+  }
   return (
     <div className='navContainer'>
       <div className='navbar'> 
@@ -34,11 +40,14 @@ export const Navbar = () => {
         <CgMenuGridR/>
         <FaFacebookMessenger/>
         <IoNotifications/>
-        <div className='profile'>
+        <div className='profile' onClick={handleOnClick}>
           <img src={user?.profilepicture}/>
         </div>
       </div>
       </div>
+      {logout&&<div>
+        <Logout/>
+      </div>}
     </div>
   )
 }

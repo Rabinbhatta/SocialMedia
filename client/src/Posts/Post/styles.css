@@ -93,5 +93,22 @@ hr{
     padding: 10px;
     background-color: #3A3B3C;
     border-radius: 15px;
+    margin: 10px;
+}
+
+.userComment button {
+    background-color: transparent;
+    border: none;
+    color: #666768;
+    font-size: 25px;
+}
+
+.userComment button:hover{
+    cursor: pointer;
+
+}
+
+.userCommentContainer{
+    height: fit-content;
 }
 

@@ -1,0 +1,19 @@
+.logoutContainer{
+    top: 50px;
+    right: 5px;
+    position: absolute;
+    display: flex;
+    height: 45px;
+    width: 100px;
+    background-color: #232425;
+    z-index: 6;
+    border-radius: 10px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoutContainer:hover{
+    background-color: #454546 ;
+    cursor: pointer;
+}

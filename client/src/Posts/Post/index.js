@@ -7,12 +7,13 @@ import { AiFillLike } from "react-icons/ai";
 import { useSelector } from 'react-redux';
 import { IoSend } from "react-icons/io5";
 
-const Post = ({creator,post}) => {
+const Post = ({creator,post,setUpdateComment,commentUsers}) => {
   const [isLiked,setIsLiked] = useState(false)
  const [onComment,setOnComment] = useState(false)
   const user = useSelector((state)=>state.user)
   const [likeNumber,setLikeNumber]= useState(0)
-  
+  const [comment,setComment] =useState("")
+ 
 
    const handleLike = async()=>{
     if(!isLiked){
@@ -24,7 +25,7 @@ const Post = ({creator,post}) => {
         const result = await response.json()
         console.log(result)
         setIsLiked(true)
-        setLikeNumber(isLiked+1)
+        setLikeNumber(likeNumber+1)
     }else{
       const response = await fetch(`http://localhost:3001/posts/dislike/${post._id}`,{
         method:"PUT",
@@ -34,22 +35,37 @@ const Post = ({creator,post}) => {
       const result = await response.json()
       console.log(result)
       setIsLiked(false)
-      setLikeNumber(isLiked-1)
+      setLikeNumber(likeNumber-1)
     }
    }
 
    const handleComment = ()=>{
         setOnComment(!onComment)
+        console.log("done")
    }
 
    const checkLikePost = ()=>{
-    const likedUser = post.likeCount;
-    setLikeNumber(likedUser.length)
+    const likedUser = post?.likeCount;
+    setLikeNumber(likedUser?.length)
     for(const i of likedUser){
-      if(i==user._id){
+      if(i==user?._id){
         setIsLiked(true)
       }
     }
+    console.log(likeNumber)
+   }
+
+   const handleUserComment = async()=>{
+      const response = await fetch(`http://localhost:3001/posts/comment/${post._id}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        credentials:"include",
+        body: JSON.stringify({content:comment})
+      })
+      const result = await response.json()
+      console.log(result)
+      setComment("")
+      setUpdateComment(true)
    }
   
    useEffect(()=>{
@@ -82,22 +98,22 @@ const Post = ({creator,post}) => {
                    <button><CiShare1/> Share</button>
                 </div>
                 <hr/>
-                {onComment && <div className='commentSection'>
+                {commentUsers?.length != 0 ? onComment &&  <div className='userCommentContainer'>{commentUsers.map((i)=>{return <div className='commentSection'>
                   <div className='profile'>
-                    <img src={user?.profilepicture} alt='' />
+                    <img src={i?.commentUser?.profilepicture} alt='' />
                  </div>
                  <div className='commentUser'>
-                  <div>Rabin Bhattarai</div>
-                  <div>asdfasdfsd</div>
+                  <div>{i?.commentUser?.firstName} {i?.commentUser?.lastName} </div>
+                  <div>{i?.content}</div>
                  </div>
-                </div>}
+                </div>})}</div> :<div></div>}
                 <div className='userComment'>
-              
                 <div className='profile'>
                     <img src={user?.profilepicture} alt='' />
                  </div>
-                 <input placeholder='Write a comment...'  />
-                 <IoSend style={{color:"#666768v"}} />
+                 <input placeholder='Write a comment...' value={comment} onChange={(e)=>setComment(e.target.value)}  />
+                 <button onClick={handleUserComment}><IoSend/></button>
+                 
                 </div>
         </div>
         

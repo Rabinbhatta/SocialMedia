@@ -5,14 +5,18 @@ import "./index.css"
 import App from './App';
 import { Provider } from 'react-redux';
 import {store} from "./state/store.js"
+import FollowContextProvider from './component/followContext.js';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <FollowContextProvider>
     <Provider  store={store}>
     <App />
     </Provider>
+    </FollowContextProvider>
+    
  
   </React.StrictMode>
 );

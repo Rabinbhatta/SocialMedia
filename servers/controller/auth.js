@@ -41,14 +41,25 @@ export const login = async(req,res)=>{
         }else{
         const token =  jwt.sign(user.id,process.env.JWT_KEY)
         res.cookie('token', token, {
+            maxAge: 3600000,
             httpOnly: true,
-            secure: true, // Use secure cookies in production
-            sameSite:  'Lax'
+            
         });
         res.status(200).json({user});}    
      } catch (error) {
         res.status(404).json({error :error.message})
      }
+}
+
+export const logout = async(req,res)=>{
+    try {
+        res.clearCookie("token",{
+            httpOnly: true,
+        })
+        res.status(204).json({"msg" :"token deleted"})
+    } catch (error) {
+        res.status(404).json({error :error.message})
+    }
 }
 
 export const uploadProfilePic = async(req,res)=>{

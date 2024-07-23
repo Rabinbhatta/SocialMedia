@@ -6,9 +6,15 @@ export const getPost = async (req,res)=>{
      try {
           const Posts = await Post.find()
           const allPost = []
+          
           for(const post of Posts){
              const user = await User.findById(post.creator)
-             allPost.push({post,user})
+             const commentUsers = []
+             for(const comment of post.comment  ){
+               const commentUser = await User.findById(comment.userID)
+               commentUsers.push({commentUser,content:comment.content})
+          }
+             allPost.push({post,user,commentUsers})
           }
           res.status(202).json(allPost);
      } catch (error) {
@@ -93,7 +99,8 @@ export const dislikePost = async(req,res)=>{
 
 export const comment = async(req,res)=>{
      try {
-          const {userID,content} = req.body;
+          const {content} = req.body;
+          const userID = res.user
           const PostId = req.params.postId;
           const updateComment = await Post.findByIdAndUpdate(PostId, {$push : {comment:  {userID,content}}},{new:true})
 

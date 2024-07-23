@@ -9,7 +9,7 @@ router.get("/",getPost)
 router.post("/upload",jwt_verify,createPost)
 router.put("/like/:postId",jwt_verify,likePost)
 router.put("/dislike/:postId",jwt_verify,dislikePost)
-router.put("/comment/:postId",comment)
+router.put("/comment/:postId",jwt_verify,comment)
 router.delete("/delete/:postId",deletePost)
 
 export default router
