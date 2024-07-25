@@ -10,10 +10,35 @@ import authroute from "./routers/auth.js"
 import fileUpload from "express-fileupload"
 import {v2 as cloudinary} from "cloudinary"
 import cookieParser from 'cookie-parser';
+import { Server } from 'socket.io';
+import {createServer} from "http"
 
 
 dotenv.config();
+
+
+
+
+
 const app = express();
+const https = createServer(app)
+ const io = new Server(https,{
+    cors:{
+        origin:"http://localhost:3000"
+    }
+ });
+
+
+
+io.on("connection",(socket)=>{
+    console.log("Your connected")
+    socket.on("disconnection",()=>console.log("you are disconnected"))
+    socket.on('chat message', (msg) => {
+        console.log('message: ' + msg);
+        io.emit('chat message', msg); // Broadcast message to all clients
+      });
+})
+
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy : "cross-origin"}));
@@ -42,7 +67,7 @@ cloudinary.config({
 mongoose.set('strictQuery', true)
 
 mongoose.connect(process.env.MONGODB, {useNewURLParser: true,useUnifiedTopology: true}
-    ).then(()=> app.listen(process.env.PORT,()=>console.log(`Server is listening at ${process.env.PORT}`))
+    ).then(()=> https.listen(process.env.PORT,()=>console.log(`Server is listening at ${process.env.PORT}`))
     ).catch((error)=>console.log(error.message))
 
    
