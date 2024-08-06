@@ -1,6 +1,119 @@
-.messengerContainer{
-    color: white;
-    width: 1000px;
-    height: 200px;
+.messenger{
+    margin-top: 50px;
+    display: flex;
+    width: 100%;
+    height: 93%;
+    background-color: #242526;
+    overflow-y: hidden;
+    color: #E4E6EB;
+}
 
+.messengerContainer{
+     
+      width: 24%;
+      z-index: 1;
+      border-right: 1px solid #393A3B;
+      height: 100%;
+      color: #E4E6EB;
+      padding: 5px 10px 5px 10px;
+}
+
+.contacts{
+    height: fit-content;
+    width: 100%;
+
+}
+
+.contact{
+    display: flex;
+    width: 350px;
+    height: fit-content;
+    padding: 10px;
+    gap: 12px;
+}
+
+.contact:hover{
+    background-color: #3A3B3C;
+    cursor: pointer;
+}
+
+.contactProfile{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.contactProfile img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.contactName{
+   
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.contactMessage{
+    font-size: 13px;
+    color: #A6A8AC;
+}
+
+.contactContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width:76%;
+    height: 100%;
+    
+}
+
+.contactNavbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    padding: 15px;
+    box-shadow: 0px 1.5px 1.5px 1.5px #212223;
+    z-index: 0;
+}
+
+.contactNavbarInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contactIcon{
+    display: flex;
+    gap: 15px;
+    color: #1A64D2;
+    font-size: 30px;
+}
+
+.messagebox{
+ 
+    margin: 20px;
+    width: 94%;
+    padding: 10px 10px 10px 20px ;
+    border-radius: 50px;
+}
+
+.messagebox button {
+
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    color: #1A64D2;
+}
+
+.messagebox button:hover{
+    cursor: pointer;
+    color: #2573e9;
+}
+
+.messagebox input{
+    font-size: 20px;
+    color: #E4E6EB;
 }

@@ -12,11 +12,12 @@ import { FaFacebookMessenger } from "react-icons/fa";
 import { CgMenuGridR } from "react-icons/cg";
 import {useSelector} from "react-redux"
 import Logout from '../logout';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const user = useSelector((state)=>state.user)
   const[logout,setlogout] = useState(false)
-
+ const navigate = useNavigate()
   const handleOnClick = ()=>{
     setlogout(!logout)
   }
@@ -38,7 +39,7 @@ export const Navbar = () => {
 
       <div className='navEnd'>
         <CgMenuGridR/>
-        <FaFacebookMessenger/>
+        <div  onClick={()=>navigate("/message")}><FaFacebookMessenger/></div>
         <IoNotifications/>
         <div className='profile' onClick={handleOnClick}>
           <img src={user?.profilepicture}/>

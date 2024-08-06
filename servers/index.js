@@ -13,36 +13,40 @@ import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import {createServer} from "http"
 
-
 dotenv.config();
-
-
-
-
 
 const app = express();
 const https = createServer(app)
  const io = new Server(https,{
     cors:{
-        origin:"http://localhost:3000"
+        origin:"http://localhost:3000",
+        methods:["POST","GET"]
     }
  });
 
-
+ const user = {}
 
 io.on("connection",(socket)=>{
+    socket.on("join",(userId)=>{
+   user[userId] = socket.id;
+    })
+    console.log(user)
     console.log("Your connected")
     socket.on("disconnection",()=>console.log("you are disconnected"))
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg); // Broadcast message to all clients
+    socket.on('private_message', ({userId,selectedId,message}) => {
+        const receiverId = user[selectedId]
+        if(receiverId){
+            io.to(receiverId).emit("private_message",message)
+        }
+        
+         // Broadcast message to all clients
       });
 })
 
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy : "cross-origin"}));
-app.use(morgan("common"));
+// app.use(morgan("common"));
 app.use(bodyParser.json({limit:"30mb", extended:true}));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}));
 app.use(cors({
@@ -63,11 +67,8 @@ cloudinary.config({
     api_secret: process.env.cloudinary_api_secret
 })
 
-
 mongoose.set('strictQuery', true)
 
 mongoose.connect(process.env.MONGODB, {useNewURLParser: true,useUnifiedTopology: true}
     ).then(()=> https.listen(process.env.PORT,()=>console.log(`Server is listening at ${process.env.PORT}`))
     ).catch((error)=>console.log(error.message))
-
-   
