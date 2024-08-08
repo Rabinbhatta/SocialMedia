@@ -12,25 +12,47 @@ const socket = io("http://localhost:3001")
 
 const Messenger = () => {
   
-  const userId = useSelector((state)=>state.user._id)
-  socket.emit("join",userId)
+  const sender = useSelector((state)=>state.user._id)
+  socket.emit("join",sender)
   
  
   const [selectedContact,setSelectedContact] = useState(null)
   const {followingUser,getfollowinguser} = useContext(FollowContext)
   const [receivedMessage,setReceivedMessage] =useState(null)
+  const [userMessage,setUserMessage] = useState(null)
   const [message,setMessage] = useState("")
   const handleClick = ()=>{
-    const selectedId = selectedContact._id
-    socket.emit("private_message",{userId,selectedId,message})
+    const receiver = selectedContact._id
+    socket.emit("private_message",{sender,receiver,message})
+    setUserMessage(previousMessage => [ ...previousMessage,{sender,message:message,receiver}])
     setMessage("")
   }
-  socket.on("private_message",(messages)=>{
-   setReceivedMessage(messages)
-  })
+  useEffect(()=>{
+    socket.on("private_message",({sendMessage,sender,receiver})=>{
+      setUserMessage(previousMessage => [ ...previousMessage,{sender,message:sendMessage,receiver}])
+      console.log({sendMessage,sender})
+     })
+  },[sender])
+ 
+  const getUserMessage = async()=>{
+    const response = await fetch(`http://localhost:3001/message/${sender}`,{
+      method:"GET",
+      credentials:'include',
+      headers: {"Content-Type":"application/json"}
+    })
+    const result = await response.json()
+    setUserMessage(result.message)
+    console.log(result.message)
+
+  }
+  useEffect(()=>{
+     getUserMessage();
+  },[])
   return (
-    <div>
-      <Navbar/>
+
+    <div className='messengerBody'>
+     <Navbar/>
+      
       <div className='messenger'>
       <div  className='messengerContainer'>
             <h2>Chats</h2>
@@ -65,12 +87,28 @@ const Messenger = () => {
                 <div><FaVideo/></div>
               </div>
               </div>
-              <div className='messages'>
-
-              </div>
+              <div className='messagesContainer'>
+              {userMessage.map((mes)=>{
+                      return( 
+                            <div className={mes.sender === selectedContact._id?"messageContainer":"messagesConatiner containerLeft"}>
+                            {(mes.sender === selectedContact._id || mes.receiver === selectedContact._id) && 
+                             <div className={mes.sender === selectedContact._id?"messages":"messages msg-left"}>
+                                  {mes.message}
+                                 </div>
+                            
+                                  }
+                            </div>
+                                
+                          )
+                          
+                        }
+                        
+                      )
+              }</div>
+          
               <div className='search messagebox'>
                 <input placeholder='Aa' value={message} onChange={(e)=>setMessage(e.target.value)}/>
-                <button onClick={handleClick}><IoSend/></button>
+                <button onClick={handleClick} ><IoSend/></button>
                 
               </div>
             </div> || <div className='sendMessage'>

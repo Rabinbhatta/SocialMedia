@@ -7,11 +7,14 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import postsroute from "./routers/posts.js"
 import authroute from "./routers/auth.js"
+import messageroute from "./routers/messenger.js"
 import fileUpload from "express-fileupload"
 import {v2 as cloudinary} from "cloudinary"
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
 import {createServer} from "http"
+import Message from './models/message.js';
+
 
 dotenv.config();
 
@@ -27,16 +30,28 @@ const https = createServer(app)
  const user = {}
 
 io.on("connection",(socket)=>{
-    socket.on("join",(userId)=>{
-   user[userId] = socket.id;
+    socket.on("join",(sender)=>{
+   user[sender] = socket.id;
     })
     console.log(user)
     console.log("Your connected")
     socket.on("disconnection",()=>console.log("you are disconnected"))
-    socket.on('private_message', ({userId,selectedId,message}) => {
-        const receiverId = user[selectedId]
+    socket.on('private_message', async({sender,receiver,message}) => {
+        const receiverId = user[receiver]
+        const newMessage = new Message({
+            sender,
+            receiver,
+            message
+        })
+        try {
+            await newMessage.save()
+            console.log("Correct")
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
         if(receiverId){
-            io.to(receiverId).emit("private_message",message)
+            const sendMessage = message
+            io.to(receiverId).emit("private_message",{sendMessage,sender,receiver})
         }
         
          // Broadcast message to all clients
@@ -60,6 +75,7 @@ app.use(cookieParser())
 
 app.use("/posts",postsroute)
 app.use("/auth",authroute)
+app.use("/message",messageroute)
 
 cloudinary.config({
     cloud_name: process.env.cloudinary_cloud_name, 
